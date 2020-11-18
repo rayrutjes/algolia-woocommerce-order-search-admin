@@ -33,7 +33,7 @@ class Order_Change_Listener {
 	 * @param mixed $post
 	 */
 	public function push_order_records( $post_id, $post ) {
-		if ( 'shop_order' !== $post->post_type
+		if ( ! in_array( $post->post_type, apply_filters( 'wc_osa_index_post_type', array( 'shop_order' ), $post_id, $post ) )
 			|| 'auto-draft' === $post->post_status
 			|| 'trash' === $post->post_status
 		) {
@@ -51,7 +51,7 @@ class Order_Change_Listener {
 	public function delete_order_records( $post_id ) {
 		$post = get_post( $post_id );
 
-		if ( 'shop_order' !== $post->post_type ) {
+		if ( ! in_array( $post->post_type, apply_filters( 'wc_osa_index_post_type', array( 'shop_order' ), $post_id, $post ) ) ) {
 			return;
 		}
 
